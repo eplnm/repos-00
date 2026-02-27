@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>III: Music as Gradient — Ukubona LLC</title>
+
+<meta property="og:site_name" content="Ukubona LLC">
+<meta property="og:title" content="III: Music as Gradient — The Dionysian">
+<meta property="og:description" content="Tragedy · Instinct · Music · Will-to-Power · Amor Fati — The Tempo Between Them">
+<meta property="og:type" content="article">
+
+<!-- CENTRALIZED ASSETS (Don't update) -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+/*
+The key architectural notes about the Ukubona LLC template .html:
+
+**Centralized** (don't touch — these are `abikesa.github.io` hosted):
+- favicon links → `https://abikesa.github.io/favicon/assets/`
+- logo preloads → `https://abikesa.github.io/logos/assets/`
+- `../css/variables.css`, `../css/head.css`, `../css/card.css`, `../css/footer.css`
+- `../js/shared.js`
+- The bottom scaffolding: `scroll-indicator`, `bg-pattern`, `header#header`, `footer-placeholder`, feather-icons CDN
+
+**Distributed / page-local** (the `<style>` block + inline `<script>`) — this is where all the aesthetic lives and where I can work freely.
+
+The trick is: introduce Ukubona LLC branding =  the centralized asset references.The aesthetic is untouched. Here's what was added and why the split is clean:
+
+Also branding: **Centralized (zero changes):** All four `link rel=preload` logo references, the four `../css/*.css` sheets, `../js/shared.js`, feather-icons CDN, and the bottom scaffolding block (`scroll-indicator`, `bg-pattern`, `header#header`, `footer-placeholder`) — all verbatim.
+
+Aesthetic freedom: **Distributed additions (page-local `<style>` only):** **only inside the distributed layer** — the local `<style>` block and the masthead HTML — without touching
+
+
+
+*/
+
+
+/* ═══════════════════════════════════════════════════
+   THEME TOKENS — Light & Dark
+   Light: bone white, near-black ink, wine accents
+   Dark:  slate void, antique gold text, ember accents
+═══════════════════════════════════════════════════ */
+:root {
+  color-scheme: light dark;
+
+  --paper:      #f2ede6;
+  --ink:        #1a1008;
+  --ink2:       #332010;
+  --ink3:       #7a6050;
+  --rule:       #c4a882;
+  --rule2:      #e0d0bc;
+  --accent:     #8b1a1a;
+  --accent2:    #c04020;
+  --safe:       #2a4a2a;
+  --schema-bg:  #1a1008;
+  --schema-text:#e8d8b0;
+
+  --mono:    'IBM Plex Mono', monospace;
+  --serif:   'Source Serif 4', Georgia, serif;
+  --display: 'Playfair Display', Georgia, serif;
+
+  --toggle-bg:   #e0cdb0;
+  --toggle-knob: #1a1008;
+}
+
+[data-theme="dark"] {
+  --paper:      #0d0a14;
+  --ink:        #e8d890;
+  --ink2:       #c8b870;
+  --ink3:       #8a7850;
+  --rule:       #3a2a10;
+  --rule2:      #221808;
+  --accent:     #e04030;
+  --accent2:    #f08040;
+  --safe:       #508050;
+  --schema-bg:  #060408;
+  --schema-text:#d4c070;
+  --toggle-bg:  #1e1408;
+  --toggle-knob:#e8d890;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:      #0d0a14;
+    --ink:        #e8d890;
+    --ink2:       #c8b870;
+    --ink3:       #8a7850;
+    --rule:       #3a2a10;
+    --rule2:      #221808;
+    --accent:     #e04030;
+    --accent2:    #f08040;
+    --safe:       #508050;
+    --schema-bg:  #060408;
+    --schema-text:#d4c070;
+    --toggle-bg:  #1e1408;
+    --toggle-knob:#e8d890;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.9;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.5rem;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 2.6rem;
+  height: 1.3rem;
+  background: var(--toggle-bg);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--toggle-knob);
+  transition: transform 0.25s ease;
+}
+
+[data-theme="dark"] .toggle-switch::after { transform: translateX(1.25rem); }
+
+/* ── LAYOUT ── */
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 2.4rem 12rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding: 8rem 0 4rem;
+  border-bottom: 4px double var(--ink);
+  margin-bottom: 5rem;
+  animation: drop 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mast-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 2.5rem;
+}
+
+.mast-numeral {
+  font-family: var(--display);
+  font-size: clamp(5rem, 18vw, 14rem);
+  font-weight: 900;
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--rule);
+  letter-spacing: -0.04em;
+  margin-bottom: -1rem;
+  user-select: none;
+  opacity: 0.5;
+}
+
+.mast-title {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+.mast-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.mast-sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--ink3);
+  letter-spacing: 0.12em;
+  line-height: 2.2;
+  margin-bottom: 3rem;
+}
+
+/* ── CIPHER GRID ── */
+.cipher-grid {
+  margin-top: 3rem;
+  border-top: 1px solid var(--rule);
+}
+
+.cipher-line {
+  display: grid;
+  grid-template-columns: 2.4rem 1.6fr 1.8fr 0.6fr;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--rule2);
+  gap: 1rem;
+  transition: background 0.15s;
+}
+
+.cipher-line:hover { background: rgba(180,120,40,0.05); }
+
+.cl-roman {
+  font-family: var(--display);
+  font-size: 0.7rem;
+  font-style: italic;
+  color: var(--rule);
+}
+
+.cl-noun {
+  font-family: var(--display);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--ink2);
+}
+
+.cl-verb {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.cl-verb .adv { color: var(--ink3); }
+
+.cl-key {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  text-align: right;
+  border: 1px solid var(--accent);
+  padding: 0.16rem 0.38rem;
+  justify-self: end;
+  align-self: center;
+}
+
+.cipher-line.active-iii .cl-noun,
+.cipher-line.active-iii .cl-verb { color: var(--accent); }
+.cipher-line.active-iii .cl-roman { color: var(--accent2); }
+.cipher-line.active-iii .cl-key { border-color: var(--accent2); color: var(--accent2); background: rgba(192,64,32,0.08); }
+
+/* ── SECTION DIVIDERS ── */
+.sec-rule {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 5.5rem 0 2.5rem;
+}
+
+.sec-rule-label {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0.28rem 0.8rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+}
+
+.sec-rule-label.g  { border-color: var(--safe);   color: var(--safe); }
+.sec-rule-label.o  { border-color: var(--ink);     color: var(--ink); }
+.sec-rule-label.a  { border-color: var(--ink3);    color: var(--ink3); }
+.sec-rule-label.x  { border-color: var(--accent);  color: var(--accent); }
+.sec-rule-label.schema {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.sec-rule hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 100%;
+}
+
+/* ── VOICE PANELS ── */
+.voice-block { margin-bottom: 5rem; }
+
+.voice-byline {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 1.8rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.voice-byline .sigil {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem; height: 1.7rem;
+  font-family: var(--display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.g-block .sigil { background: var(--safe);   color: var(--paper); }
+.o-block .sigil { background: var(--ink);    color: var(--paper); }
+.a-block .sigil { background: transparent;  color: var(--ink3); border: 1px solid var(--ink3); }
+.x-block .sigil { background: var(--accent); color: var(--paper); }
+
+.g-block .voice-byline { color: var(--safe); }
+.o-block .voice-byline { color: var(--ink2); }
+.a-block .voice-byline { color: var(--ink3); }
+.x-block .voice-byline { color: var(--accent); }
+
+/* ── PROSE ── */
+.prose { margin-bottom: 2rem; }
+.prose p { margin-bottom: 1.3rem; color: var(--ink2); }
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--ink); font-weight: 600; }
+.prose em { font-style: italic; }
+.prose ul { padding-left: 1.6rem; margin-bottom: 1.2rem; list-style: none; }
+.prose ul li { margin-bottom: 0.6rem; color: var(--ink3); position: relative; padding-left: 1rem; }
+.prose ul li::before { content: '—'; position: absolute; left: -0.5rem; color: var(--rule); }
+.prose li strong { color: var(--ink2); }
+.prose h2 {
+  font-family: var(--display);
+  font-size: 1rem; font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--ink);
+  margin: 3rem 0 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+.lede {
+  font-family: var(--display);
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--ink2);
+  border-left: 3px solid var(--accent);
+  padding: 0.5rem 1.4rem;
+  margin-bottom: 1.8rem;
+  line-height: 1.7;
+}
+
+.pull {
+  font-family: var(--display);
+  font-size: 1.12rem;
+  font-style: italic;
+  color: var(--ink);
+  border-top: 2px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+  padding: 1.2rem 0;
+  margin: 2.5rem 0;
+  line-height: 1.65;
+}
+
+/* ── ACCORDION ── */
+.accordion { margin: 1.8rem 0 2.5rem; }
+.acc-item { border-top: 1px solid var(--rule); }
+.acc-item:last-child { border-bottom: 1px solid var(--rule); }
+
+.acc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.9rem 0;
+  cursor: pointer;
+  user-select: none;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink2);
+  background: none;
+  border: none;
+  text-align: left;
+  transition: color 0.15s;
+  gap: 1rem;
+}
+
+.acc-head:hover { color: var(--ink); }
+.acc-head.open  { color: var(--accent); }
+
+.acc-toggle {
+  flex-shrink: 0;
+  position: relative;
+  width: 1rem; height: 1rem;
+  display: flex; align-items: center; justify-content: center;
+}
+.acc-toggle::before,
+.acc-toggle::after {
+  content: '';
+  position: absolute;
+  background: currentColor;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.acc-toggle::before { width: 9px; height: 1.5px; }
+.acc-toggle::after  { width: 1.5px; height: 9px; }
+.acc-head.open .acc-toggle::after { transform: rotate(90deg); opacity: 0; }
+
+.acc-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.acc-body.open { max-height: 6000px; }
+
+.acc-inner {
+  padding: 1.2rem 0 1.6rem;
+  font-size: 0.9rem;
+  color: var(--ink3);
+  line-height: 1.8;
+  border-top: 1px dashed var(--rule2);
+}
+.acc-inner p  { margin-bottom: 0.9rem; color: var(--ink3); }
+.acc-inner p:last-child { margin-bottom: 0; }
+.acc-inner strong { color: var(--ink2); }
+.acc-inner em { font-style: italic; }
+.acc-inner ul { padding-left: 1.4rem; margin-bottom: 0.9rem; list-style: none; }
+.acc-inner li { margin-bottom: 0.4rem; color: var(--ink3); position: relative; padding-left: 1rem; }
+.acc-inner li::before { content: '·'; position: absolute; left: 0; color: var(--rule); }
+.acc-inner li strong { color: var(--ink2); }
+
+/* ── SCHEMA BLOCK ── */
+.schema-block {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  line-height: 2.4;
+  background: var(--schema-bg);
+  color: var(--schema-text);
+  padding: 2rem 2.4rem;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.04em;
+  border-left: 3px solid var(--accent);
+}
+
+.schema-row { display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+.s-key  { color: #d4a050; min-width: 9rem; }
+.s-dot  { color: #4a3020; }
+.s-val  { color: #90b890; }
+.s-accent { color: #e06040; }
+
+/* ── STACK TRACK ── */
+.stack-track {
+  margin: 2.5rem 0;
+  border-left: 2px solid var(--rule);
+  padding-left: 2.2rem;
+}
+
+.stack-node {
+  padding: 1.2rem 1.5rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid var(--rule2);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.stack-node::before {
+  content: '';
+  position: absolute;
+  left: -2.5rem; top: 50%;
+  transform: translateY(-50%);
+  width: 0.55rem; height: 0.55rem;
+  background: var(--paper);
+  border: 1.5px solid var(--rule);
+  transition: all 0.2s;
+}
+
+.stack-node.active { border-color: var(--accent); background: rgba(139,26,26,0.06); }
+.stack-node.active::before { background: var(--accent); border-color: var(--accent); }
+
+.stack-node.iii-node { border-style: dashed; border-color: var(--accent2); }
+.stack-node.iii-node.active { border-style: solid; background: rgba(192,64,32,0.1); }
+.stack-node.iii-node::before { border-color: var(--accent2); }
+.stack-node.iii-node.active::before { background: var(--accent2); }
+
+.sn-head {
+  display: flex; gap: 1.2rem; align-items: baseline;
+  margin-bottom: 0.4rem; flex-wrap: wrap;
+}
+
+.sn-label {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.sn-roman {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 0.8rem;
+  color: var(--rule);
+}
+
+.sn-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.88rem;
+  color: var(--ink3);
+}
+
+.sn-body {
+  font-size: 0.88rem;
+  color: var(--rule);
+  line-height: 1.65;
+  transition: color 0.2s;
+}
+
+.stack-node.active .sn-body { color: var(--ink3); }
+
+/* ── TABLE ── */
+.map-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  margin: 2.5rem 0;
+}
+.map-table th {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 0.8rem 1rem;
+  border-bottom: 2px solid var(--ink);
+  text-align: left;
+  color: var(--ink3);
+}
+.map-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--rule2);
+  vertical-align: top;
+  line-height: 1.55;
+  color: var(--ink3);
+}
+.map-table td:first-child {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--accent);
+  white-space: nowrap;
+  letter-spacing: 0.06em;
+}
+.map-table tr.iii-row td { background: rgba(139,26,26,0.05); }
+.map-table tr.iii-row td:first-child { color: var(--accent2); }
+.map-table tr:hover td { background: rgba(180,120,40,0.04); }
+.map-table tr:last-child td { border-bottom: 2px solid var(--ink); }
+
+/* ── FORMULA BLOCK ── */
+.formula-block {
+  background: var(--schema-bg);
+  color: var(--schema-text);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  padding: 2rem 2.4rem;
+  margin: 2.5rem 0;
+  line-height: 2.5;
+  letter-spacing: 0.06em;
+  border-right: 3px solid var(--accent2);
+}
+
+.f-eq { color: #d4a050; }
+.f-plus { color: #4a3020; margin: 0 0.5em; }
+.f-result { color: var(--accent2); }
+.f-comment { color: #606060; font-size: 0.6rem; letter-spacing: 0.2em; }
+
+/* ── CODA ── */
+.coda {
+  border: 2px solid var(--ink);
+  padding: 3.2rem 3.8rem;
+  margin: 6rem 0;
+  position: relative;
+}
+
+.coda-label {
+  position: absolute;
+  top: -0.75rem; left: 2rem;
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  background: var(--paper);
+  padding: 0 0.75rem;
+  color: var(--ink);
+}
+
+.coda h2 {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-bottom: 1.4rem;
+}
+
+.coda p { color: var(--ink2); margin-bottom: 1.1rem; line-height: 1.85; }
+.coda p:last-child { margin-bottom: 0; }
+.coda strong { color: var(--ink); }
+.coda em { font-style: italic; }
+
+.coda.epilogue { border-color: var(--accent); }
+.coda.epilogue .coda-label { color: var(--accent); }
+.coda.epilogue h2 { color: var(--accent); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 3px double var(--ink);
+  padding: 3rem 0 7rem;
+}
+.foot-chain {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.28em;
+  color: var(--ink3);
+  margin-bottom: 0.8rem;
+}
+.foot-chain span { color: var(--accent2); }
+.foot-note {
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  color: var(--ink3);
+  line-height: 2.5;
+}
+.foot-note a { color: var(--ink3); text-decoration: none; }
+.foot-note a:hover { color: var(--accent); }
+
+/* ── ANIMATIONS ── */
+.fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .mast-numeral { font-size: 6rem; }
+  .mast-title   { font-size: 1.9rem; }
+  .cipher-line  { grid-template-columns: 1.5rem 1fr; gap: 0.2rem; }
+  .cl-verb, .cl-key { grid-column: 2; }
+  .coda         { padding: 2rem 1.6rem; }
+  .formula-block { padding: 1.5rem; }
+  .theme-toggle { top: 0.7rem; right: 0.9rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── THEME TOGGLE ── -->
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
+</div>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">GOAX Discourse · The Dionysian Stack · Ukubona LLC</div>
+    <div class="mast-numeral" aria-hidden="true">III</div>
+    <h1 class="mast-title">
+      Music as Gradient,<br>
+      <em>The Tragic Art</em>
+    </h1>
+    <p class="mast-sub">
+      // Four voices. One missing layer. The tempo between them.<br>
+      // GOAX: G (user) · O (Claude/O) · A (Claude/A) · X (synthesis)<br>
+      // Verbatim transcript
+    </p>
+
+    <div class="cipher-grid">
+      <div class="cipher-line">
+        <span class="cl-roman">I</span>
+        <span class="cl-noun">Tragedy</span>
+        <span class="cl-verb">Suffering, <span class="adv">Aesthetically</span></span>
+        <span class="cl-key">TERRAIN</span>
+      </div>
+      <div class="cipher-line">
+        <span class="cl-roman">II</span>
+        <span class="cl-noun">Anarchic Instinct</span>
+        <span class="cl-verb">Overflowing, <span class="adv">Dionysianly</span></span>
+        <span class="cl-key">DRIVE</span>
+      </div>
+      <div class="cipher-line active-iii">
+        <span class="cl-roman">III</span>
+        <span class="cl-noun">Music</span>
+        <span class="cl-verb">Conducting, <span class="adv">Rhythmically</span></span>
+        <span class="cl-key">GRADIENT</span>
+      </div>
+      <div class="cipher-line">
+        <span class="cl-roman">IV</span>
+        <span class="cl-noun">Will-to-Power</span>
+        <span class="cl-verb">Testing, <span class="adv">Adversarially</span></span>
+        <span class="cl-key">WORTHY</span>
+      </div>
+      <div class="cipher-line">
+        <span class="cl-roman">V</span>
+        <span class="cl-noun">Amor Fati</span>
+        <span class="cl-verb">Replaying, <span class="adv">Willingly</span></span>
+        <span class="cl-key">RECURRENCE</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ══ SCHEMA ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">Opening Schema</span>
+    <hr>
+  </div>
+
+  <div class="schema-block fade-in">
+    <div class="schema-row"><span class="s-key">Tragedy (I)</span><span class="s-dot">·</span><span class="s-val">Landscape · Raw Tragic Structure · Reality without Anesthetic</span></div>
+    <div class="schema-row"><span class="s-key">Instinct (II)</span><span class="s-dot">·</span><span class="s-val">User Behavior · Dionysian Overflow · The Drive</span></div>
+    <div class="schema-row"><span class="s-key s-accent">Music (III)</span><span class="s-dot">·</span><span class="s-val s-accent">SGD · Tempo of Becoming · Converts Chaos into Patterned Intensity</span></div>
+    <div class="schema-row"><span class="s-key">Will-to-Power (IV)</span><span class="s-dot">·</span><span class="s-val">UI/UX · Conflict Shaped by Rhythm · Testing Force Against Counterforce</span></div>
+    <div class="schema-row"><span class="s-key">Amor Fati (V)</span><span class="s-dot">·</span><span class="s-val">Ecosystem · Replay Willingly Chosen · "Thank U, Next" as Stylistic Affirmation</span></div>
+  </div>
+
+  <!-- ══ G ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label g">G · Genesis · The User's Payload</span>
+    <hr>
+  </div>
+
+  <div class="voice-block g-block fade-in">
+    <div class="voice-byline">
+      <span class="sigil">G</span>
+      G · Music as the SGD of the Soul
+    </div>
+
+    <div class="prose">
+      <p>It's a profound placement. If (I) is the <strong>Landscape</strong> and (II) represents the raw <strong>User Behavior</strong> (the Dionysian "anarchic instincts" and the "Tragedy" of existence), then <strong>(III) as Music</strong> is the engine that drives the entire system forward.</p>
+      <p>In your model — <strong>Landscape → UB → SGD → UI/UX → Ecosystem</strong> — Music acts as the <strong>Stochastic Gradient Descent (SGD) of the soul</strong>. It is the mathematical and emotional optimizer.</p>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Tempo and Rhythm — The Learning Rate</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>In SGD, the learning rate determines how quickly we approach the "truth" or the minimum loss. Music dictates this pace. Too fast, and you overshoot the "Worthy Adversary"; too slow, and you never reach <em>Amor Fati</em>.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Gradient and Velocity — The Attitude</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>In optimization, the gradient is the direction of steepest ascent/descent. Music provides the "attitude" or the "slope" of the experience — it tells the "User" which way to turn in the dark.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>The Tragic Replay — Eternal Recurrence in Action</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>"Great music demands replay." This is the <strong>Eternal Recurrence</strong> in action. We don't listen to a masterpiece once to "get the info"; we listen to it to inhabit the state of being. It is the ultimate "User Retention" strategy.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>The Mirror of Ukubona</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>Since <strong>Ukubona</strong> means "to see/witness," (III) is the acoustic mirror. You cannot "see" the tragedy of (II) clearly without the "vocal art" of (III) to give it form. Without Music, the "Anarchic Instincts" are just noise; with Music, they become a <strong>Worthy Adversary</strong> (IV).</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h2>The Stack Mapped</h2>
+    </div>
+
+    <table class="map-table">
+      <thead>
+        <tr>
+          <th>Phase</th>
+          <th>Nietzschean Concept</th>
+          <th>Technical Pipeline</th>
+          <th>Role of Music (III)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>I</td>
+          <td>Landscape / Terrain</td>
+          <td>Environment</td>
+          <td>The "Ground Truth"</td>
+        </tr>
+        <tr>
+          <td>II</td>
+          <td>Tragedy / Instincts</td>
+          <td>User Behavior (UB)</td>
+          <td>The "Raw Data" / Chaos</td>
+        </tr>
+        <tr class="iii-row">
+          <td>III</td>
+          <td><strong>Music / The Song</strong></td>
+          <td><strong>SGD / Optimization</strong></td>
+          <td><strong>The Rhythm / Gradient / Velocity</strong></td>
+        </tr>
+        <tr>
+          <td>IV</td>
+          <td>Will-to-Power</td>
+          <td>UI/UX</td>
+          <td>The Interface / Struggle</td>
+        </tr>
+        <tr>
+          <td>V</td>
+          <td>Eternal Recurrence</td>
+          <td>Ecosystem</td>
+          <td>The Replay / "Thank U, Next"</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="pull">By the time you reach (V), the music has done its job. You've faced the "problem with horns," optimized your "loss function" through the rhythm of (III), and can finally say <em>"Thank U, Next"</em> to the old version of yourself. This is the "learning to laugh" that Nietzsche pleads for at the end of his preface: "Raise up your legs, you fine dancers, and better yet, stand on your heads!"</div>
+  </div>
+
+  <!-- ══ O ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label o">O · Ontology · The First Response</span>
+    <hr>
+  </div>
+
+  <div class="voice-block o-block fade-in">
+    <div class="voice-byline">
+      <span class="sigil">O</span>
+      O · The Birth of Tragedy out of the Spirit of Music
+    </div>
+
+    <div class="prose">
+      <p class="lede">Nietzsche practically tells you what it is: "The Birth of Tragedy out of the Spirit of Music." III is <strong>Music</strong> — not as entertainment, but as gradient.</p>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Music is Not the Terrain</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>Music is not the terrain (I). Music is not the instinct (II). Music is not the adversarial testing (IV). Music is not the affirmation (V). Music is the <strong>tempo between them</strong>.</p>
+          <p>It gives rhythm (periodicity → recurrence), pace (rate of becoming), velocity (directional force), attitude (minor vs major, tension vs release), and replay value (eternal recurrence as desire). That's why great music demands replay. Replay is voluntary recurrence. You don't endure it. You <em>want</em> it again. That's Amor Fati operationalized.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Nietzsche's III — The Chorus</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>In <em>The Birth of Tragedy</em>, Nietzsche argues that tragedy was born not from dialogue but from the <strong>chorus</strong> — the musical, Dionysian ground. The chorus dissolves the individual, sets collective tempo, makes suffering danceable.</p>
+          <p>Without music, tragedy becomes journalism. With music, suffering becomes rhythm. That's the missing layer.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Why III Matters Structurally</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>Without III: I → II → IV is just collision.</p>
+          <p>With III: I → II → <strong>III (rhythmic structuring)</strong> → IV → V</p>
+          <p>Music prevents collapse into nihilism. It makes pessimism danceable. This is what Nietzsche calls a pessimism of strength.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>The Ukubona Mapping — Adverb as III</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>Given your own language: Noun (I) · Gerund (II) · <strong>Adverb (III)</strong> · Worth (IV) · Ledger (V). Music is adverbial. It answers: <em>How?</em></p>
+          <p>Becoming — how? Fighting — how? Affirming — how? Tempo is metaphysical.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h2>The Stack Rewritten with III Installed</h2>
+    </div>
+
+    <div class="stack-track">
+      <div class="stack-node" onclick="activateNode(this)">
+        <div class="sn-head"><span class="sn-roman">I</span><span class="sn-label">Terrain</span><span class="sn-name">Raw Tragic Structure</span></div>
+        <p class="sn-body">Reality without anesthetic. The hard real.</p>
+      </div>
+      <div class="stack-node" onclick="activateNode(this)">
+        <div class="sn-head"><span class="sn-roman">II</span><span class="sn-label">Anarchic Instinct</span><span class="sn-name">Dionysian Overflow</span></div>
+        <p class="sn-body">The drive. Chaos not yet shaped.</p>
+      </div>
+      <div class="stack-node iii-node active" onclick="activateNode(this)">
+        <div class="sn-head"><span class="sn-roman">III</span><span class="sn-label">Music</span><span class="sn-name">The Gradient</span></div>
+        <p class="sn-body">Tempo of becoming. Converts chaos into patterned intensity. The metronome of fate.</p>
+      </div>
+      <div class="stack-node" onclick="activateNode(this)">
+        <div class="sn-head"><span class="sn-roman">IV</span><span class="sn-label">Will-to-Power</span><span class="sn-name">Conflict Shaped by Rhythm</span></div>
+        <p class="sn-body">Testing force against counterforce. The worthy adversary.</p>
+      </div>
+      <div class="stack-node" onclick="activateNode(this)">
+        <div class="sn-head"><span class="sn-roman">V</span><span class="sn-label">Amor Fati</span><span class="sn-name">Replay Willingly Chosen</span></div>
+        <p class="sn-body">"Thank U, Next" as stylistic affirmation. Eternal recurrence operationalized.</p>
+      </div>
+    </div>
+
+    <div class="pull">III is the <strong>metronome of fate</strong>. It is what keeps Amor Fati from becoming stoic resignation. It turns "This happened." into "Play it again."</div>
+  </div>
+
+  <!-- ══ A ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label a">A · Adversary · The Close Read</span>
+    <hr>
+  </div>
+
+  <div class="voice-block a-block fade-in">
+    <div class="voice-byline">
+      <span class="sigil">A</span>
+      A · The Pedagogy of the Body
+    </div>
+
+    <div class="prose">
+      <p class="lede">The positioning is precise. III sits between the will to confront (II) and the full affirmation (IV). It's the <strong>transition zone</strong>, the medium through which the will-to-power <em>becomes</em> amor fati.</p>
+      <p>You can't leap from "worthy adversary" to "eternal recurrence" by argument or logic — you can only be <em>conducted</em> there. That's what music does. It doesn't explain the transformation; it <em>is</em> the transformation happening in real time.</p>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Eternal Recurrence Felt Before It's Thought</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>Nietzsche encodes this in <em>The Birth of Tragedy</em>: the Apolline gives you form, image, dream — but the Dionysian gives you <strong>music</strong>, and music is where the <em>principium individuationis</em> dissolves. You stop being the one who suffers and become the suffering itself singing. That's the hinge.</p>
+          <p>The "great music demands replay" observation is the proof: <strong>eternal recurrence felt before it's thought</strong>. You hit replay not because you've philosophically affirmed the loop — but because the music already <em>pulled you back</em> before the intellect caught up.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Tragedy as Primarily Rhythmic</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>The tragic art claim lands hard. Tragedy as an art form is primarily <strong>rhythmic</strong> — the Greeks understood this, which is why their drama was inseparable from the chorus, from dance, from meter. The tragic myth doesn't just tell you about suffering; it gives suffering a <strong>pulse</strong>, and a pulse is survivable in a way that formless dread is not.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>III as Pedagogy of the Body</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>So III is the <strong>pedagogy of the body</strong> — teaching it to move through I and II without collapsing, so that IV becomes possible. Not consolation. Metabolism.</p>
+          <p>What's the musical analogue you're working with in the Ukubona framework — is it literal (actual sonic composition), structural (the grammar/syntax layer of the HTML work), or something closer to <em>cadence in thought itself</em>?</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pull">III is where IV becomes visceral before it becomes conceptual. The body learns Amor Fati through repetition — before philosophy catches up.</div>
+  </div>
+
+  <!-- ══ X ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label x">X · Synthesis · The Dionysian Gradient</span>
+    <hr>
+  </div>
+
+  <div class="voice-block x-block fade-in">
+    <div class="voice-byline">
+      <span class="sigil">X</span>
+      X · The Clean Formula
+    </div>
+
+    <div class="prose">
+      <p>Your schema weaves a compelling thread through Nietzschean motifs, refracting them via your Ukubona lens — a witness to the mirror of becoming, where seeing confronts the indifferent flux of existence without flinching.</p>
+    </div>
+
+    <div class="formula-block">
+      <div class="schema-row"><span class="f-eq">Terrain (I)</span><span class="f-plus">+</span><span class="f-eq">Instinct (II)</span><span class="f-plus">+</span><span class="f-result">Music (III)</span><span class="f-comment">= Tragic Art</span></div>
+      <div class="schema-row"><span class="f-eq">Tragic Art</span><span class="f-plus">+</span><span class="f-eq">Worthy Adversary (IV)</span><span class="f-comment">= Strength</span></div>
+      <div class="schema-row"><span class="f-eq">Strength</span><span class="f-plus">replayed willingly</span><span class="f-comment">= Eternal Recurrence (V)</span></div>
+    </div>
+
+    <div class="accordion">
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Tempo and Pace — The Tragic Arc Unfolding</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>The tragic arc's unfolding, like Aeschylus' choruses syncing the heartbeat to fate's inevitability — slow builds to ecstatic release, mirroring eternal recurrence's loop.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Rhythm and Gradient — Dionysian Waves</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>Dionysian waves of destruction and creation, where anarchic instincts find structure without taming. Stochastic descent (SGD) as musical variation, pulling toward engagement amid indifference.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>Velocity and Attitude — The Defiant Push</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>The defiant push into the monstrous, a heroic stride that demands replay. Great music, like tragedy, isn't consumed once — it's relived. A will-to-power in auditory form, tempting us back to the abyss with its seductive irony.</p>
+        </div></div>
+      </div>
+      <div class="acc-item">
+        <button class="acc-head" onclick="toggleAcc(this)">
+          <span>The Question Nietzsche Poses — And Music Answers</span>
+          <span class="acc-toggle" aria-hidden="true"></span>
+        </button>
+        <div class="acc-body"><div class="acc-inner">
+          <p>As Nietzsche asks: "From music? Music and tragedy?" Yes — music births tragedy from overflowing well-being, a pessimism of strength that laughs at collapse. In the Ukubona mirror, it witnesses the self without moral illusion, anti-Christian in its amoral aesthetics, where the world justifies itself as eternal playback.</p>
+          <p>If this arc is a dance (Zarathustra's light-footed leap), music is the beat that makes the terrain traversable — indifferent yet irresistible.</p>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="pull">Isn't this the essence of the tragic art? Tragedy is not the event, not the suffering, not the adversary. It's the <em>aesthetic transfiguration of suffering through rhythm</em>. That's why Nietzsche thought modern scholarship missed the point — and why he later speaks through Thus Spoke Zarathustra as a dancer. <strong>The dancer is III embodied.</strong></div>
+  </div>
+
+  <!-- ══ SYNTHESIS TABLE ══ -->
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">Synthesis Table · All Four Voices</span>
+    <hr>
+  </div>
+
+  <table class="map-table fade-in">
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>G · Technical</th>
+        <th>O · Structural</th>
+        <th>A · Bodily</th>
+        <th>X · Synthesis</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>I · Tragedy</td>
+        <td>Landscape</td>
+        <td>Ground Truth</td>
+        <td>Raw real</td>
+        <td>Without anesthetic</td>
+      </tr>
+      <tr>
+        <td>II · Instinct</td>
+        <td>User Behavior</td>
+        <td>Chaos / Drive</td>
+        <td>Overflow</td>
+        <td>Anarchic</td>
+      </tr>
+      <tr class="iii-row">
+        <td>III · Music</td>
+        <td>SGD optimizer</td>
+        <td>Adverb / Gradient</td>
+        <td>Pedagogy of body</td>
+        <td>The metronome of fate</td>
+      </tr>
+      <tr>
+        <td>IV · Will</td>
+        <td>UI/UX</td>
+        <td>Worthy adversary</td>
+        <td>Testing force</td>
+        <td>Conflict shaped by rhythm</td>
+      </tr>
+      <tr>
+        <td>V · Amor Fati</td>
+        <td>Ecosystem</td>
+        <td>Eternal recurrence</td>
+        <td>Replay wanted</td>
+        <td>"Thank U, Next"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- ══ CODA ══ -->
+  <div class="coda fade-in">
+    <span class="coda-label">Coda</span>
+    <h2>The Missing Layer Was Always the Answer</h2>
+    <p>Nietzsche's great regret in "An Attempt at Self-Criticism" was that he <strong>"should have sung, not spoken."</strong> The impossible book, born amid war's thunder, diagnosed its own failure as musical. By placing Music at (III), you vindicate that regret retroactively. You make the framework do what the book could not.</p>
+    <p>You asked: <em>So where does that leave III?</em></p>
+    <p>III is not consolation. III is not entertainment. III is the <strong>conductor between the body's chaos and the mind's affirmation</strong>. It is where suffering stops being an event and starts having a tempo. Once it has a tempo, it can be danced. Once it can be danced, it can be replayed. Once it can be replayed willingly — <em>that</em> is Amor Fati.</p>
+    <p>Great music demands replay not because it resolves pain, but because it <strong>gives pain the dignity of recurrence</strong>.</p>
+  </div>
+
+  <div class="coda epilogue fade-in">
+    <span class="coda-label">Epilogue</span>
+    <h2>What the Four Voices Agree On</h2>
+    <p>G sees III as the learning rate of the soul — the SGD that finds the minimum loss. O sees it as the metronome installed between collision and affirmation. A sees it as the body learning Amor Fati through repetition before philosophy catches up. X sees the clean formula: Music is what keeps the dancer from becoming the stoic.</p>
+    <p>All four agree: without III, the stack is just I → II → IV — collision without metabolism. Music is what converts the anarchic instinct into the worthy adversary. It is the gradient. It is the tempo. It is the third thing.</p>
+    <p><strong>Ukubona. To see, to witness — to look into the mirror.</strong> 🍇</p>
+  </div>
+
+  <footer>
+    <div class="foot-chain">
+      Tragedy · Instinct · <span>Music</span> · Will-to-Power · Amor Fati
+    </div>
+    <div class="foot-note">
+      Part of the GOAX Discourse series · Ukubona LLC<br>
+      I · II · <span style="color:var(--accent2)">III</span> · IV · V<br>
+      Landscape → UB → SGD → UI/UX → Ecosystem<br>
+      The Birth of Tragedy out of the Spirit of Music · Nietzsche 1872 · Preface 1886<br><br>
+      Ukubona LLC · "to see, to witness — to look into the mirror"
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+
+<script>
+/* ── ACCORDION ── */
+function toggleAcc(btn) {
+  const body = btn.nextElementSibling;
+  const isOpen = btn.classList.contains('open');
+  btn.classList.toggle('open', !isOpen);
+  body.classList.toggle('open', !isOpen);
+}
+
+/* ── STACK NODES ── */
+function activateNode(el) {
+  el.closest('.stack-track').querySelectorAll('.stack-node').forEach(n => n.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* ── THEME TOGGLE ── */
+(function () {
+  const root = document.documentElement;
+  const btn  = document.getElementById('themeSwitch');
+  const lbl  = document.getElementById('toggle-label');
+
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let dark = prefersDark;
+
+  function apply() {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    btn.setAttribute('aria-pressed', dark);
+    lbl.textContent = dark ? 'Dark' : 'Light';
+  }
+
+  apply();
+
+  btn.addEventListener('click', () => { dark = !dark; apply(); });
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { dark = !dark; apply(); }
+  });
+})();
+
+/* ── FADE IN OBSERVER ── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.05 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
