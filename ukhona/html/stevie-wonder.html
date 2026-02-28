@@ -1,150 +1,964 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stevie Wonder - Lately: Stochastic Harmonic Analysis</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #0e1111;
-        }
-        .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        h1, h2, h3 {
-            color: #1a2a6c;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%;
-            height: 0;
-            overflow: hidden;
-            margin-bottom: 30px;
-            border-radius: 8px;
-            border: 4px solid #1a2a6c;
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .theory-box {
-            background-color: #f0f4f8;
-            border-left: 5px solid #1a2a6c;
-            padding: 20px;
-            margin: 20px 0;
-            font-style: italic;
-        }
-        code {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            padding: 3px 6px;
-            border-radius: 4px;
-            font-family: 'Consolas', monospace;
-        }
-        .highlight {
-            color: #b22222;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stevie Wonder — "Lately": A Harmonic Descent — Ukubona</title>
+
+<!-- CENTRALIZED ASSETS (Don't update) -->
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" type="image/x-icon">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-light.ico" media="(prefers-color-scheme: light)">
+<link rel="icon" href="https://abikesa.github.io/favicon/assets/favicon-dark.ico" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-light.png" as="image">
+<link rel="preload" href="https://abikesa.github.io/logos/assets/ukubona-dark.png" as="image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300;1,8..60,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+<link href="../css/variables.css?v=1.1" rel="stylesheet" />
+<link href="../css/head.css?v=1.1" rel="stylesheet" />
+<link href="../css/card.css?v=1.1" rel="stylesheet" />
+<link href="../css/footer.css" rel="stylesheet" />
+
+<script id="MathJax-script" defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+<style>
+:root {
+  color-scheme: light dark;
+
+  --paper:      #f2ede6;
+  --ink:        #1a1008;
+  --ink2:       #332010;
+  --ink3:       #7a6050;
+  --rule:       #c4a882;
+  --rule2:      #e0d0bc;
+  --accent:     #8b1a1a;
+  --accent2:    #c04020;
+
+  /* Music-specific palette — deep indigo/violet for theory blocks */
+  --theory-bg:   #0e0f1c;
+  --theory-text: #c8cff8;
+  --theory-acc:  #8090e8;
+  --theory-hi:   #e0a050;
+
+  /* Chorus/modal interchange block — warm amber */
+  --chorus-bg:   #1a1000;
+  --chorus-text: #e8d0a0;
+  --chorus-acc:  #d08030;
+
+  --mono:    'IBM Plex Mono', monospace;
+  --serif:   'Source Serif 4', Georgia, serif;
+  --display: 'Playfair Display', Georgia, serif;
+
+  --toggle-bg:   #e0cdb0;
+  --toggle-knob: #1a1008;
+}
+
+[data-theme="dark"] {
+  --paper:      #0d0a14;
+  --ink:        #e8d890;
+  --ink2:       #c8b870;
+  --ink3:       #8a7850;
+  --rule:       #3a2a10;
+  --rule2:      #221808;
+  --accent:     #e04030;
+  --accent2:    #f08040;
+  --theory-bg:  #050610;
+  --theory-text:#b0baf0;
+  --theory-acc: #6878d8;
+  --theory-hi:  #c88040;
+  --chorus-bg:  #100a00;
+  --chorus-text:#d0c090;
+  --chorus-acc: #b86820;
+  --toggle-bg:  #1e1408;
+  --toggle-knob:#e8d890;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper:      #0d0a14;
+    --ink:        #e8d890;
+    --ink2:       #c8b870;
+    --ink3:       #8a7850;
+    --rule:       #3a2a10;
+    --rule2:      #221808;
+    --accent:     #e04030;
+    --accent2:    #f08040;
+    --theory-bg:  #050610;
+    --theory-text:#b0baf0;
+    --theory-acc: #6878d8;
+    --theory-hi:  #c88040;
+    --chorus-bg:  #100a00;
+    --chorus-text:#d0c090;
+    --chorus-acc: #b86820;
+    --toggle-bg:  #1e1408;
+    --toggle-knob:#e8d890;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.9;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── THEME TOGGLE ── */
+.theme-toggle {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.5rem;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ink3);
+}
+
+.toggle-switch {
+  position: relative;
+  width: 2.6rem;
+  height: 1.3rem;
+  background: var(--toggle-bg);
+  border: 1px solid var(--rule);
+  border-radius: 0;
+  cursor: pointer;
+  transition: background 0.25s;
+}
+
+.toggle-switch::after {
+  content: '';
+  position: absolute;
+  top: 0.2rem;
+  left: 0.2rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--toggle-knob);
+  transition: transform 0.25s ease;
+}
+
+[data-theme="dark"] .toggle-switch::after { transform: translateX(1.25rem); }
+
+/* ── PAGE ── */
+.page {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 0 2.4rem 12rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── MASTHEAD ── */
+.masthead {
+  padding: 8rem 0 4rem;
+  border-bottom: 4px double var(--ink);
+  margin-bottom: 5rem;
+  animation: drop 1.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.mast-eyebrow {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-bottom: 2.5rem;
+}
+
+.mast-numeral {
+  font-family: var(--display);
+  font-size: clamp(5rem, 18vw, 14rem);
+  font-weight: 900;
+  line-height: 0.85;
+  color: transparent;
+  -webkit-text-stroke: 2px var(--rule);
+  letter-spacing: -0.04em;
+  margin-bottom: -1rem;
+  user-select: none;
+  opacity: 0.5;
+}
+
+.mast-title {
+  font-family: var(--display);
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+.mast-title em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.mast-sub {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--ink3);
+  letter-spacing: 0.12em;
+  line-height: 2.2;
+  margin-bottom: 3rem;
+}
+
+/* ── CIPHER / SECTION GRID ── */
+.cipher-grid {
+  margin-top: 3rem;
+  border-top: 1px solid var(--rule);
+}
+
+.cipher-line {
+  display: grid;
+  grid-template-columns: 7rem 1.4fr 1.8fr 0.9fr;
+  align-items: baseline;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--rule2);
+  gap: 1rem;
+  transition: background 0.15s;
+}
+
+.cipher-line:hover { background: rgba(180,120,40,0.05); }
+
+.cl-roman {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--rule);
+}
+
+.cl-noun {
+  font-family: var(--display);
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--ink2);
+}
+
+.cl-verb {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.cl-key {
+  font-family: var(--mono);
+  font-size: 0.5rem;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  text-align: right;
+  border: 1px solid var(--accent);
+  padding: 0.16rem 0.38rem;
+  justify-self: end;
+  align-self: center;
+}
+
+.cipher-line.theory-mark .cl-noun,
+.cipher-line.theory-mark .cl-verb { color: var(--theory-acc); }
+.cipher-line.theory-mark .cl-roman { color: var(--theory-acc); }
+.cipher-line.theory-mark .cl-key {
+  border-color: var(--theory-acc);
+  color: var(--theory-acc);
+  background: rgba(128,144,232,0.08);
+}
+
+.cipher-line.chorus-mark .cl-noun,
+.cipher-line.chorus-mark .cl-verb { color: var(--chorus-acc); }
+.cipher-line.chorus-mark .cl-roman { color: var(--chorus-acc); }
+.cipher-line.chorus-mark .cl-key {
+  border-color: var(--chorus-acc);
+  color: var(--chorus-acc);
+  background: rgba(208,128,48,0.08);
+}
+
+/* ── SECTION RULES ── */
+.sec-rule {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 5.5rem 0 2.5rem;
+}
+
+.sec-rule-label {
+  font-family: var(--mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding: 0.28rem 0.8rem;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+}
+
+.sec-rule-label.theory { border-color: var(--theory-acc); color: var(--theory-acc); background: rgba(128,144,232,0.06); }
+.sec-rule-label.chorus { border-color: var(--chorus-acc); color: var(--chorus-acc); background: rgba(208,128,48,0.06); }
+.sec-rule-label.schema {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.sec-rule hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 100%;
+}
+
+/* ── VIDEO EMBED ── */
+.video-wrap {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  margin: 0 0 3rem;
+  border: 2px solid var(--rule);
+}
+
+.video-wrap iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+}
+
+/* ── THEORY BLOCK (dark indigo, like prior-block) ── */
+.theory-block {
+  background: var(--theory-bg);
+  border-left: 3px solid var(--theory-acc);
+  padding: 2.4rem 2.8rem;
+  margin: 0 0 3rem;
+  position: relative;
+}
+
+.theory-stamp {
+  position: absolute;
+  top: 1rem; right: 1.4rem;
+  font-family: var(--mono);
+  font-size: 0.44rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--theory-acc);
+  opacity: 0.6;
+  border: 1px solid var(--theory-acc);
+  padding: 0.15rem 0.5rem;
+}
+
+.theory-block h2 {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--theory-text);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.theory-block .theory-sub {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.22em;
+  color: var(--theory-acc);
+  margin-bottom: 2rem;
+}
+
+.theory-prose {
+  color: var(--theory-text);
+  font-size: 0.9rem;
+  line-height: 1.85;
+  margin-bottom: 1.2rem;
+}
+
+.theory-prose p { margin-bottom: 1rem; }
+.theory-prose strong { color: #e8f0ff; }
+.theory-prose em { font-style: italic; color: var(--theory-acc); }
+.theory-prose code {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  background: rgba(128,144,232,0.14);
+  padding: 0.1em 0.38em;
+  color: var(--theory-acc);
+}
+
+.theory-pull {
+  border-top: 1px solid rgba(128,144,232,0.3);
+  border-bottom: 1px solid rgba(128,144,232,0.15);
+  padding: 1.2rem 0;
+  margin: 1.8rem 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--theory-acc);
+  line-height: 1.65;
+}
+
+/* ── PROGRESSION TABLE ── */
+.prog-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  margin: 1.4rem 0 2rem;
+}
+
+.prog-table th {
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 0.7rem 1rem;
+  border-bottom: 2px solid var(--theory-acc);
+  text-align: left;
+  color: var(--theory-acc);
+}
+
+.prog-table td {
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(128,144,232,0.15);
+  vertical-align: top;
+  line-height: 1.55;
+  color: var(--theory-text);
+}
+
+.prog-table td:first-child {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--theory-acc);
+  white-space: nowrap;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.prog-table tr:hover td { background: rgba(128,144,232,0.04); }
+.prog-table tr.hi td { background: rgba(128,144,232,0.1); }
+.prog-table tr.hi td:first-child { color: #b8c8ff; }
+
+/* ── CHORUS BLOCK (warm amber) ── */
+.chorus-block {
+  background: var(--chorus-bg);
+  border-left: 3px solid var(--chorus-acc);
+  padding: 2.4rem 2.8rem;
+  margin: 0 0 3rem;
+  position: relative;
+}
+
+.chorus-stamp {
+  position: absolute;
+  top: 1rem; right: 1.4rem;
+  font-family: var(--mono);
+  font-size: 0.44rem;
+  letter-spacing: 0.38em;
+  text-transform: uppercase;
+  color: var(--chorus-acc);
+  opacity: 0.6;
+  border: 1px solid var(--chorus-acc);
+  padding: 0.15rem 0.5rem;
+}
+
+.chorus-block h2 {
+  font-family: var(--display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--chorus-text);
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.chorus-block .chorus-sub {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.22em;
+  color: var(--chorus-acc);
+  margin-bottom: 2rem;
+}
+
+.chorus-prose {
+  color: var(--chorus-text);
+  font-size: 0.9rem;
+  line-height: 1.85;
+  margin-bottom: 1.2rem;
+}
+
+.chorus-prose p { margin-bottom: 1rem; }
+.chorus-prose strong { color: #fff0c0; }
+.chorus-prose em { font-style: italic; color: var(--chorus-acc); }
+.chorus-prose code {
+  font-family: var(--mono);
+  font-size: 0.78em;
+  background: rgba(208,128,48,0.14);
+  padding: 0.1em 0.38em;
+  color: var(--chorus-acc);
+}
+
+.chorus-pull {
+  border-top: 1px solid rgba(208,128,48,0.3);
+  border-bottom: 1px solid rgba(208,128,48,0.15);
+  padding: 1.2rem 0;
+  margin: 1.8rem 0;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--chorus-acc);
+  line-height: 1.65;
+}
+
+/* ── SCHEMA BLOCK ── */
+.schema-block {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  line-height: 2.4;
+  background: var(--theory-bg);
+  color: var(--theory-text);
+  padding: 2rem 2.4rem;
+  margin-bottom: 2.5rem;
+  letter-spacing: 0.04em;
+  border-left: 3px solid var(--accent);
+}
+
+.schema-row { display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+.s-key  { color: #d4a050; min-width: 16rem; }
+.s-dot  { color: #4a3020; }
+.s-val  { color: #90b890; }
+.s-acc  { color: var(--accent2); }
+.s-theory { color: var(--theory-acc); }
+
+/* ── ANNOTATION LAYER ── */
+.annotation {
+  margin: 1.5rem 0;
+  border-left: 3px solid var(--theory-acc);
+  padding: 0.9rem 1.4rem;
+  background: rgba(128,144,232,0.06);
+  font-family: var(--mono);
+  font-size: 0.56rem;
+  letter-spacing: 0.1em;
+  color: var(--theory-acc);
+  line-height: 1.9;
+}
+
+.annotation::before {
+  content: '♩ HARMONIC NOTE';
+  display: block;
+  font-size: 0.44rem;
+  letter-spacing: 0.4em;
+  opacity: 0.7;
+  margin-bottom: 0.4rem;
+}
+
+/* ── CODA ── */
+.coda {
+  border: 2px solid var(--ink);
+  padding: 3.2rem 3.8rem;
+  margin: 6rem 0;
+  position: relative;
+}
+
+.coda-label {
+  position: absolute;
+  top: -0.75rem; left: 2rem;
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  background: var(--paper);
+  padding: 0 0.75rem;
+  color: var(--ink);
+}
+
+.coda h2 {
+  font-family: var(--display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  margin-bottom: 1.4rem;
+}
+
+.coda p { color: var(--ink2); margin-bottom: 1.1rem; line-height: 1.85; }
+.coda p:last-child { margin-bottom: 0; }
+.coda strong { color: var(--ink); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 3px double var(--ink);
+  padding: 3rem 0 7rem;
+}
+
+.foot-chain {
+  font-family: var(--mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.28em;
+  color: var(--ink3);
+  margin-bottom: 0.8rem;
+}
+
+.foot-chain span { color: var(--accent2); }
+
+.foot-note {
+  font-family: var(--mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.1em;
+  color: var(--ink3);
+  line-height: 2.5;
+}
+
+/* ── FADE IN ── */
+.fade-in { opacity: 0; transform: translateY(14px); transition: opacity 0.65s ease, transform 0.65s ease; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 640px) {
+  .mast-numeral   { font-size: 6rem; }
+  .mast-title     { font-size: 1.9rem; }
+  .cipher-line    { grid-template-columns: 4rem 1fr; gap: 0.2rem; }
+  .cl-verb, .cl-key { grid-column: 2; }
+  .coda           { padding: 2rem 1.6rem; }
+  .theory-block   { padding: 1.8rem 1.6rem; }
+  .chorus-block   { padding: 1.8rem 1.6rem; }
+  .theme-toggle   { top: 0.7rem; right: 0.9rem; }
+}
+</style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Stevie Wonder - "Lately"</h1>
-    <h2>A Stochastic Gradient Descent into Heartbreak</h2>
-    <div class="container">
-    <h1>Harmonic Analysis: Stevie Wonder - "Lately"</h1>
-    
-    <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/PdWxOThRadA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-
-    <p>While many guitarists capo this and play it in C Major, the original studio recording sits in <strong>Db Major</strong>. We are going to analyze it in its true concert pitch (Db), looking at the functional harmony, the voice leading, and that absolutely staggering modulation at the end.</p>
-
-    <h3>1. The Verse: The "Line Cliché" and Internal Tension</h3>
-    <p><strong>Progression:</strong> <code>Dbmaj7 | Bbm7 | Ebm7 | Ab11</code></p>
-    <p><strong>The Twist:</strong> <code>Ebm | Ebm(maj7) | Ebm7 | Ab7 | Dbmaj7</code></p>
-    <p>The verse starts with a standard, almost deceptively simple <code>I - vi - ii - V</code> turnaround. It sounds safe, which perfectly mirrors the mundane domestic setting of the lyrics ("Lately I've been staring in the mirror...").</p>
-    <p>But then, on the <code>ii</code> chord (Ebm), Stevie employs a classic minor line cliché. While the bass stays rooted on Eb, the internal voice descends chromatically: <strong>Eb -> D -> Db</strong>.</p>
-    <ul>
-        <li>Harmonically, it creates <code>Ebm -> Ebm(maj7) -> Ebm7</code>.</li>
-        <li>Emotionally, it represents the lyric "very slowly picking me apart." That descending, dissonant major 7th inside a minor chord (the D natural against the Eb minor triad) creates an agonizing internal friction before finally releasing into the <code>V</code> chord (Ab7) and back home to <code>Db</code>.</li>
-    </ul>
-
-    <h3>2. The Chorus: Modal Interchange and The Heartbreak Chord</h3>
-    <p><strong>Progression:</strong> <code>Gbmaj7 | Gbm6 | Fm7 | Bb7sus4 - Bb7</code></p>
-    <p><strong>(Roman Numerals:</strong> <code>IV | iv | iii | VI7</code><strong>)</strong></p>
-    <p>Here is where Stevie's genius with tension shines. He starts the chorus on the <code>IV</code> chord (<code>Gbmaj7</code>), lifting the song into a feeling of hope ("Well, I'm a man of many wishes").</p>
-    <p>But immediately, he drops the major third of that chord to a minor third, moving to <code>Gbm6</code> (the minor <code>iv</code>). This is textbook <strong>modal interchange</strong> (borrowing from the parallel minor of Db). The minor <code>iv</code> is the quintessential "heartbreak chord" in jazz and R&B. It literally forces the melody to dip into a melancholic sigh ("hope my premonition misses").</p>
-    <p>He then moves diatonic to <code>Fm7</code> (<code>iii</code>), but instead of going to the <code>vi</code> chord, he turns it into a secondary dominant: <code>Bb7sus4</code> to <code>Bb7</code> (<code>V/ii</code>). This creates a magnetic pull toward the <code>ii</code> chord for the final turnaround.</p>
-
-    <h3>3. The Walk-Up (Chorus Tail)</h3>
-    <p><strong>Progression:</strong> <code>Ebm7 | Fm7 | Gbm7 | Ab11 | Dbmaj7</code></p>
-    <p><strong>(Roman Numerals:</strong> <code>ii | iii | iv | V | I</code><strong>)</strong></p>
-    <p>Instead of a standard <code>ii - V - I</code>, Stevie walks the bass straight up the scale. But look at the third chord: <strong>Gbm7</strong>. Diatonically, the IV chord should be major (Gbmaj7). By making it a minor 7th passing chord, he injects that bluesy, tragic modal interchange <em>again</em> right before hitting the dominant <code>Ab11</code> to resolve the phrase.</p>
-
-    <h3>4. The Coda / Modulation: The "Stevie" Masterclass</h3>
-    <p>If you want to know what Stevie Wonder is "made of," it's right here at the end of the second chorus. He needs to modulate, but instead of just stepping up a half-step via a standard V-I, he executes a sprawling, sequentially-planed walk-up that entirely blurs the tonal center.</p>
-    <p>Instead of resolving the chorus walk-up to <code>Db</code>, he just <em>keeps climbing</em>:</p>
-    <p><strong>The Climb:</strong> <code>Ebm7 - Fm7 - Gbm7 - Abm7 - Amaj7 - Bm7 - Dbm7 - Gb7(#9) -> Bmaj7</code></p>
-    <p><strong>What is happening here?</strong></p>
-    <ul>
-        <li>He starts the standard <code>ii - iii - iv</code> walk up (<code>Ebm7 - Fm7 - Gbm7</code>).</li>
-        <li>But then he breaks out of the key, planing the minor chords upward: <code>Abm7</code>.</li>
-        <li>He shifts into a completely new sequence that belongs to the key of B Major (Cb Major).</li>
-        <li>The <code>Bm7 - Dbm7 - Gb7</code> functions as a <code>i - ii - V</code> in the target key of B Major. He borrows the minor tonic (<code>Bm7</code>) to trick your ear, uses it to build a <code>ii - V</code> cadence, and then finally drops the hammer by resolving to a bright, devastating <strong>B Major</strong>.</li>
-    </ul>
-    <p>He essentially modulates <strong>down a whole step</strong> (from Db to B)—a rarity in pop music, which almost exclusively modulates <em>up</em> for energy. Modulating down gives the final chorus a feeling of resignation and sinking heaviness. "Cause this time could mean goodbye" isn't a triumphant vocal belt; it's a realization of defeat.</p>
-
-    <hr>
-
-    <p><strong>TL;DR:</strong> You're looking at a master who uses chromatic inner-voice movement (line clichés) to build subtle anxiety, leans heavily on the minor <code>iv</code> chord for weeping modal interchange, and uses sequential, non-diatonic planing to execute a downward modulation that makes the listener physically feel the bottom dropping out of the narrator's relationship.</p>
+<!-- ── THEME TOGGLE ── -->
+<div class="theme-toggle" aria-label="Toggle dark/light mode">
+  <span id="toggle-label">Light</span>
+  <div class="toggle-switch" id="themeSwitch" role="button" tabindex="0" aria-pressed="false"></div>
 </div>
-    <div class="video-container">
-        <iframe src="https://www.youtube.com/embed/PdWxOThRadA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<div class="page">
+
+  <!-- ══ MASTHEAD ══ -->
+  <header class="masthead">
+    <br><br><br>
+    <div class="mast-eyebrow">Ukubona LLC · Music Theory · Harmonic Analysis</div>
+    <div class="mast-numeral" aria-hidden="true">♭</div>
+    <h1 class="mast-title">
+      Stevie Wonder — <em>"Lately"</em>:<br>
+      A Stochastic Descent
+    </h1>
+    <p class="mast-sub">
+      // Key: D♭ Major (concert pitch)<br>
+      // Technique: Line cliché · Modal interchange · Sequential planing<br>
+      // Modulation: Down a whole step — D♭ → B Major (rare in pop; devastating in effect)
+    </p>
+
+    <div class="cipher-grid">
+      <div class="cipher-line theory-mark">
+        <span class="cl-roman">VERSE</span>
+        <span class="cl-noun">Line Cliché</span>
+        <span class="cl-verb">I – vi – ii – V · chromatic inner descent on E♭m</span>
+        <span class="cl-key">ENTROPY</span>
+      </div>
+      <div class="cipher-line chorus-mark">
+        <span class="cl-roman">CHORUS</span>
+        <span class="cl-noun">Modal Interchange</span>
+        <span class="cl-verb">IV → iv · the minor subdominant as heartbreak chord</span>
+        <span class="cl-key">SORROW</span>
+      </div>
+      <div class="cipher-line theory-mark">
+        <span class="cl-roman">WALK-UP</span>
+        <span class="cl-noun">Bass Ascent</span>
+        <span class="cl-verb">ii – iii – iv – V – I · borrowed minor iv again mid-climb</span>
+        <span class="cl-key">TENSION</span>
+      </div>
+      <div class="cipher-line chorus-mark">
+        <span class="cl-roman">CODA</span>
+        <span class="cl-noun">Sequential Planing</span>
+        <span class="cl-verb">Non-diatonic ascent → collapses to B Major below</span>
+        <span class="cl-key">SURRENDER</span>
+      </div>
     </div>
+  </header>
 
-    <h3>The Fundamentals (Db Major)</h3>
-    <p>The verse operates on a <code>I - vi - ii - V</code> foundation, but the <strong>Line Cliché</strong> on the <code>Ebm</code> (Eb -> D -> Db) acts as the initial "entropy" in the system, slowly picking the tonality apart.</p>
+  <!-- ── VIDEO ── -->
+  <div class="video-wrap fade-in">
+    <iframe src="https://www.youtube.com/embed/PdWxOThRadA" frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen></iframe>
+  </div>
 
-    <div class="theory-box">
-        "The movement from Ebm to Ebm(maj7) is the first sign of the model's loss function increasing. It's the internal dissonance of a man realizing his weights are poorly initialized for the coming reality."
-    </div>
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- PART I: THE VERSE                              -->
+  <!-- ══════════════════════════════════════════════ -->
 
-    <h3>The Chorus: Modal Interchange</h3>
-    <p>The move to <code>Gbm6</code> (minor iv) is the emotional anchor. But as noted, the walk-up at the end of the chorus is where the "human intelligence" outpaces the algorithm.</p>
-
-    <h3>The Stochastic Modulation: Db &rarr; A &rarr; Gb</h3>
-    <p>This is the "Wonder" moment. We aren't just modulating; we are traversing a non-linear landscape with a <strong>low learning rate</strong>, ensuring the listener doesn't "jump" to the new key, but rather drifts into it disorientingly.</p>
-    
-    <ul>
-        <li><strong>The Pivot:</strong> The climb hits <code>Amaj7</code>. In the context of the original Db, this is a <code>bVI</code>. It’s a distant, dark attractor.</li>
-        <li><strong>The Transformation:</strong> That <code>Amaj7</code> acts as a temporary tonic. The subsequent <code>Bm7</code> to <code>Dbm7</code> walk-up is a <code>ii - iii</code> progression in the key of A Major.</li>
-        <li><strong>The Convergence:</strong> By the time we hit the <code>Gb7</code>, we have reached the <code>V</code> of our new target. But the resolution to <strong>B Major</strong> reveals the truth: The B is the <code>IV</code> (Subdominant) of the new space.</li>
-    </ul>
-
-    <p>The path of <span class="highlight">Db &rarr; A &rarr; Gb</span> is a masterclass in voice leading. It is "dam beautifully disorienting yet coherent." It mimics a stochastic process where each step feels like noise, yet the global trend leads to a devastatingly precise emotional local minimum.</p>
-
-    <h3>Conclusion</h3>
-    <p>While an AI can map the coordinates, the choice to modulate <em>down</em> to the subdominant—creating a feeling of sinking rather than soaring—is a uniquely human decision. It proves that a 45-year-old human ear still possesses a heuristic for "soul" that a billion tokens can only approximate.</p>
-
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label theory">Part I · The Verse · D♭ Major · Line Cliché &amp; Initial Entropy</span>
     <hr>
-    <p style="text-align: center;"><em>Analysis verified as "Worthy Adversary" Grade.</em></p>
-</div>
+  </div>
+
+  <div class="theory-block fade-in">
+    <div class="theory-stamp">D♭ Major · I</div>
+
+    <h2>The Verse: Chromatic Inner-Voice Descent</h2>
+    <p class="theory-sub">
+      Progression: D♭maj7 · B♭m7 · E♭m7 · A♭11 → then the cliché
+    </p>
+
+    <div class="theory-prose">
+      <p>The verse opens on a <code>I – vi – ii – V</code> turnaround so clean it sounds almost domestic — which is exactly the point. The lyrics place us in front of a mirror, noticing. The harmony mirrors that mundanity.</p>
+      <p>But then, on the <code>ii</code> chord (E♭m), Stevie deploys the <strong>minor line cliché</strong>. The bass holds on E♭ while the inner voice descends chromatically: <strong>E♭ → D → D♭</strong>. Harmonically this creates:</p>
+    </div>
+
+    <table class="prog-table">
+      <thead>
+        <tr>
+          <th>Chord</th>
+          <th>Function</th>
+          <th>Emotional Register</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>E♭m</td>
+          <td>ii in D♭</td>
+          <td>Stable — the mundane daily life</td>
+        </tr>
+        <tr class="hi">
+          <td>E♭m(maj7)</td>
+          <td>ii with raised 7th</td>
+          <td>Agonizing dissonance — D♮ against E♭ minor triad</td>
+        </tr>
+        <tr>
+          <td>E♭m7</td>
+          <td>Release of tension</td>
+          <td>Brief exhale before dominant</td>
+        </tr>
+        <tr>
+          <td>A♭7 → D♭maj7</td>
+          <td>V → I resolution</td>
+          <td>Home, but we've been marked by the descent</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="theory-pull">
+      "The movement from E♭m to E♭m(maj7) is the first sign of the loss function increasing — the internal dissonance of a man realizing his model is poorly calibrated for the coming reality."
+    </div>
+
+    <div class="theory-prose">
+      <p>The major 7th raised inside a minor chord creates what theorists call a <em>dissonant passing tone</em> — a note that belongs nowhere it touches, yet makes perfect emotional sense. <strong>It is "very slowly picking me apart"</strong> rendered as harmony.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- PART II: THE CHORUS                            -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label chorus">Part II · The Chorus · Modal Interchange · The Heartbreak Chord</span>
+    <hr>
+  </div>
+
+  <div class="annotation fade-in">
+    The minor iv chord (G♭m6) is borrowed from D♭ minor — a technique called modal interchange. In jazz and R&amp;B, this chord carries a specific emotional weight: the sound of hope curdling.
+  </div>
+
+  <div class="chorus-block fade-in">
+    <div class="chorus-stamp">Chorus · IV → iv</div>
+
+    <h2>The Chorus: Hope Followed Immediately by Its Collapse</h2>
+    <p class="chorus-sub">
+      G♭maj7 · G♭m6 · Fm7 · B♭7sus4 – B♭7 (IV · iv · iii · VI7)
+    </p>
+
+    <div class="chorus-prose">
+      <p>The chorus lifts off on <code>G♭maj7</code> (IV) — a feeling of openness, of "well, I'm a man of many wishes." And then, with surgical cruelty, Stevie lowers the major third a half step. <code>G♭maj7</code> becomes <code>G♭m6</code>.</p>
+      <p>This is <strong>modal interchange</strong>: borrowing the minor iv from the parallel minor key of D♭. It is the textbook heartbreak chord in jazz and R&amp;B. It forces the melody to sigh downward precisely on "hope my premonition misses."</p>
+      <p>He doesn't wallow. He walks it diatonic to <code>Fm7</code> (iii), then turns it into a secondary dominant: <code>B♭7sus4 → B♭7</code>, functioning as V/ii. The pull toward the ii chord is magnetic — this is classical voice leading, dressed in Motown clothes.</p>
+    </div>
+
+    <div class="chorus-pull">
+      One chromatic alteration — from G♭ major to G♭ minor — is all it takes. The song is never again as safe as it was before that chord.
+    </div>
+
+    <h2 style="margin-top:2.5rem;">The Chorus Walk-Up: Borrowed Minor iv Mid-Climb</h2>
+    <p class="chorus-sub">
+      E♭m7 · Fm7 · G♭m7 · A♭11 · D♭maj7 (ii · iii · iv · V · I)
+    </p>
+
+    <div class="chorus-prose">
+      <p>Rather than a plain <code>ii – V – I</code> cadence, Stevie walks the bass straight up the scale. The ear expects the IV chord to be <strong>major</strong> (G♭maj7 diatonically). Instead, it arrives as <code>G♭m7</code> — minor, borrowed again from the parallel minor. The modal interchange infiltrates even the walk-up. Even the moment of return home is tinged with grief.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- PART III: THE CODA MODULATION                 -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label theory">Part III · The Coda · Sequential Planing · Descent Disguised as Ascent</span>
+    <hr>
+  </div>
+
+  <div class="theory-block fade-in">
+    <div class="theory-stamp">D♭ → A → B · Coda</div>
+
+    <h2>The Modulation: Down a Whole Step, Into Resignation</h2>
+    <p class="theory-sub">
+      The full climb: E♭m7 – Fm7 – G♭m7 – A♭m7 – Amaj7 – Bm7 – D♭m7 – G♭7(♯9) → Bmaj7
+    </p>
+
+    <div class="theory-prose">
+      <p>Instead of resolving the second chorus walk-up to D♭, Stevie keeps climbing. Then he breaks the key entirely, planing minor chords upward through chromatic space with no tonal anchor. It feels like forward motion. It is not.</p>
+    </div>
+
+    <table class="prog-table">
+      <thead>
+        <tr>
+          <th>Chord</th>
+          <th>Role in Climb</th>
+          <th>Tonal Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>E♭m7 – Fm7 – G♭m7</td>
+          <td>Standard walk-up beginning</td>
+          <td>ii – iii – iv in D♭ (familiar ground)</td>
+        </tr>
+        <tr>
+          <td>A♭m7</td>
+          <td>First break from D♭</td>
+          <td>Diatonic v minor — begins the drift</td>
+        </tr>
+        <tr class="hi">
+          <td>Amaj7</td>
+          <td>Pivot chord · bVI of D♭</td>
+          <td>Dark attractor — signals new gravitational center</td>
+        </tr>
+        <tr>
+          <td>Bm7 – D♭m7</td>
+          <td>ii – iii in A Major</td>
+          <td>Building cadential approach to B</td>
+        </tr>
+        <tr class="hi">
+          <td>G♭7(♯9) → Bmaj7</td>
+          <td>V → I in B Major</td>
+          <td>Hammer falls: new tonic a whole step <em>below</em> D♭</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="theory-pull">
+      Pop music almost always modulates up — a key change as emotional lift, a final chorus that soars. Stevie modulates down. The body doesn't rise to meet the final refrain. It sinks. "This time could mean goodbye" is not a triumphant belt. It is a realization of defeat.
+    </div>
+
+    <div class="theory-prose">
+      <p>The path <strong>D♭ → A → B</strong> traces an unbroken stochastic descent. Each step feels like forward noise. The global trend leads to an emotional local minimum — a key the ear never saw coming, arriving not with fanfare but with the quiet thud of a door closing.</p>
+      <p>This is what sets Stevie apart. An AI can map the coordinates. The choice to modulate <em>down</em> — creating sinking rather than soaring — remains a uniquely human decision about what heartbreak actually feels like in the body.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════ -->
+  <!-- SYNTHESIS SCHEMA                               -->
+  <!-- ══════════════════════════════════════════════ -->
+
+  <div class="sec-rule fade-in">
+    <span class="sec-rule-label schema">Synthesis · Technique → Emotion · Structural Map</span>
+    <hr>
+  </div>
+
+  <div class="schema-block fade-in">
+    <div class="schema-row"><span class="s-key s-theory">VERSE · Line Cliché</span><span class="s-dot">→</span><span class="s-val">Chromatic inner voice (E♭→D→D♭) · slowly picking apart</span></div>
+    <div class="schema-row"><span class="s-key s-theory">VERSE · E♭m(maj7)</span><span class="s-dot">→</span><span class="s-val">Dissonant maj7 in minor context · the friction of suspicion</span></div>
+    <br>
+    <div class="schema-row"><span class="s-key s-acc">CHORUS · G♭m6 (minor iv)</span><span class="s-dot">→</span><span class="s-val">Modal interchange from D♭ minor · the heartbreak chord</span></div>
+    <div class="schema-row"><span class="s-key s-acc">WALK-UP · G♭m7 passing</span><span class="s-dot">→</span><span class="s-val">Minor iv injected mid-cadence · grief seeping into homecoming</span></div>
+    <br>
+    <div class="schema-row"><span class="s-key s-theory">CODA · Amaj7 pivot</span><span class="s-dot">→</span><span class="s-val">bVI of D♭ · dark attractor · first sign of tonal rupture</span></div>
+    <div class="schema-row"><span class="s-key s-theory">CODA · G♭7(♯9) → Bmaj7</span><span class="s-dot">→</span><span class="s-val">V→I in B Major · whole step below D♭ · resignation confirmed</span></div>
+    <br>
+    <div class="schema-row"><span class="s-key">Modulation direction</span><span class="s-dot">·</span><span class="s-val">DOWN a whole step — against every pop convention · body sinks, not soars</span></div>
+    <div class="schema-row"><span class="s-key">Emotional architecture</span><span class="s-dot">·</span><span class="s-val">Anxiety → sorrow → grief → resignation · fully mapped in harmony alone</span></div>
+  </div>
+
+  <!-- ══ CODA ══ -->
+  <div class="coda fade-in">
+    <span class="coda-label">Coda · Analysis</span>
+    <h2>The Algorithm Can Map It. Only the Human Chose It.</h2>
+    <p>The chromatic inner-voice movement of the verse cliché, the borrowed minor iv of the chorus, the non-diatonic planing of the coda — each technique is nameable, teachable, reproducible. What cannot be reproduced is the instinct that knew a downward modulation would feel like defeat rather than resolution.</p>
+    <p><strong>Music theory names what happened after the fact.</strong> Stevie chose it before a theory existed for it. The stochastic walk from D♭ to B Major is disorientingly coherent because it was felt before it was calculated. Each step was noise. The endpoint was inevitable.</p>
+    <p>A 45-year-old human ear still possesses a heuristic for soul that a billion tokens can only approximate. The map proves the territory was always there. <strong>Ukubona. To see, to witness — to look into the mirror.</strong> 🎹</p>
+  </div>
+
+  <footer>
+    <div class="foot-chain">
+      Verse · Chorus · <span>Walk-Up</span> · Coda · D♭ → B
+    </div>
+    <div class="foot-note">
+      Harmonic analysis: "Lately" by Stevie Wonder · Original key: D♭ Major · 1980<br>
+      Techniques: Line cliché · Modal interchange · Sequential non-diatonic planing · Downward modulation<br>
+      <br>
+      Ukubona LLC · "to see, to witness — to look into the mirror"<br>
+      Part of the Music Theory series · Harmonic Analysis · Emotional Architecture in Song
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+<!-- CENTRALIZED ASSETS (Don't Update) -->
+<div class="scroll-indicator"><div class="scroll-progress"></div></div>
+<div class="bg-pattern"></div>
+<header class="header" id="header"></header>
+<main class="page wrap-max"></main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js"></script>
+<script src="../js/shared.js"></script>
+<script>
+/* ── THEME TOGGLE ── */
+(function () {
+  const root = document.documentElement;
+  const btn  = document.getElementById('themeSwitch');
+  const lbl  = document.getElementById('toggle-label');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let dark = prefersDark;
+
+  function apply() {
+    root.setAttribute('data-theme', dark ? 'dark' : 'light');
+    btn.setAttribute('aria-pressed', dark);
+    lbl.textContent = dark ? 'Dark' : 'Light';
+  }
+  apply();
+  btn.addEventListener('click', () => { dark = !dark; apply(); });
+  btn.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') { dark = !dark; apply(); }
+  });
+})();
+
+/* ── FADE IN OBSERVER ── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, { threshold: 0.05 });
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
 
 </body>
 </html>
